@@ -16,3 +16,4 @@ def sort_words(input_string):
 
 print(sort_words("banana ORANGE apple"))
 print(sort_words("Banana PEAR Orange apple"))
+print(sort_words("Banana PEAR Orange apple APPLE"))
