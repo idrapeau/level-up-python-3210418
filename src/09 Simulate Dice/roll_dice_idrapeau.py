@@ -17,16 +17,17 @@ def roll_dice(*args):
       roll_total += roll
     roll_results.append(roll_total)
   
+  # Count the number of events for each result and order them by result
   result_counts = dict(collections.Counter(roll_results))
   result_counts_ordered = collections.OrderedDict(sorted(result_counts.items()))
-  #result_counts_ordered = dict(collections.OrderedDict(sorted(result_counts.items())))
 
+  # Convert the number of events for each result into a percentage
   for key in result_counts_ordered:
     result_counts_ordered[key] = to_percentage(result_counts_ordered[key], iterations)
 
-  print(result_counts_ordered)
+  # Print out the results in a table
+  for key in result_counts_ordered:
+    print("{:<5} {:<10}".format(key, result_counts_ordered[key]))
 
 roll_dice(6)
 roll_dice(4, 6, 6)
-
- 
