@@ -11,6 +11,8 @@ def count_words(text_file_path):
       # Split the line into a list of words
       words = current_line.split()
       for i in range(len(words)):
+        # Remove single quotation marks and hyphens from the beginning and end of the word
+        words[i] = words[i].strip("'-")
         # Remove anything that isn't a letter, number, apostrophe, or hyphen from the word
         words[i] = ''.join(re.findall(r"[A-Z0-9\'-]", words[i]))
         # Check if the remaining string is empty, skip if it is
