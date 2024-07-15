@@ -23,6 +23,21 @@ def solve_sudoku(puzzle):
 
   print(possible_values)
 
+  # Update the dictionary, removing any numbers that are no longer valid
+  # Might move to a helper function
+  for key in possible_values:
+    for n in possible_values[key]:
+      if not number_is_valid(current_puzzle, key, n):
+        possible_values[key].remove(n)
+
+  # Check for unique possible values in each row, column, and box and fill those in
+  for key in possible_values:
+    for n in possible_values[key]:
+      if unique_in_area(possible_values, key, n):
+        current_puzzle[key[0]][key[1]] = n
+        del possible_values[key]
+        break
+
 def number_is_valid(puzzle, index, number):
   x = index[0]
   y = index[1]
@@ -36,7 +51,7 @@ def number_is_valid(puzzle, index, number):
     if puzzle[i][y] == number:
       return False
 
-  # Check if number is in the box containing (x, y)
+  # Check if number is already in the box containing (x, y)
   for i in range((x//3)*3, (x//3)*3 + 3):
     for j in range((y//3)*3, (y//3)*3 + 3):
       if puzzle[i][j] == number:
@@ -45,15 +60,26 @@ def number_is_valid(puzzle, index, number):
   # Return True if number is not already in the column, row, or box containing index
   return True
 
-def unique_in_row(possible_values, index, number):
-  return
+# Check if a possible value is unique in its row, column, or box
+def unique_in_area(possible_values, index, number):
+  x = index[0]
+  y = index[1]
+  unique_in_row = True
+  unique_in_col = True
+  unique_in_box = True
 
-def unique_in_column(possible_values, index, number):
-  return
+  for key in possible_values:
+    if key[0] == x and key[1] == y:
+      continue
+    if key[0] == x and number in possible_values[key]:
+      unique_in_row = False
+    if key[1] == y and number in possible_values[key]:
+      unique_in_col = False
+    if key[0]//3 == x//3 and key[1]//3 == y//3 and number in possible_values[key]:
+      unique_in_box = False
 
-def unique_in_box(possible_values, index, number):
-  return
-
+  return unique_in_row or unique_in_col or unique_in_box
+      
 
 sample_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
                 [6, 0, 0, 1, 9, 5, 0, 0, 0],
