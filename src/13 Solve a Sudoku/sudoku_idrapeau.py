@@ -18,25 +18,42 @@ def solve_sudoku(puzzle):
 
         if len(values_list) == 1:
           current_puzzle[x][y] = values_list[0]
+          # Update the dictionary, removing any numbers that are no longer valid
+          possible_values = update_possible_values(current_puzzle, possible_values)
         else:
           possible_values[index] = values_list
 
-  print(possible_values)
+  number_filled_in = True
+  while number_filled_in:
+    number_filled_in = False
+    to_delete = []
+    # Check for unique possible values in each row, column, and box and fill those in
+    # Also check for spaces where there is only one possible value
+    for key in possible_values:
+      for n in possible_values[key]:
+        if len(possible_values[key]) == 1:
+          current_puzzle[key[0]][key[1]] = possible_values[key][0]
+          possible_values[key] = []
+          # Update the dictionary, removing any numbers that are no longer valid
+          possible_values = update_possible_values(current_puzzle, possible_values)
+          number_filled_in = True
+          to_delete.append(key)
+          break
+        if unique_in_area(possible_values, key, n):
+          current_puzzle[key[0]][key[1]] = n
+          possible_values[key] = []
+          # Update the dictionary, removing any numbers that are no longer valid
+          possible_values = update_possible_values(current_puzzle, possible_values)
+          number_filled_in = True
+          to_delete.append(key)
+          break
 
-  # Update the dictionary, removing any numbers that are no longer valid
-  # Might move to a helper function
-  for key in possible_values:
-    for n in possible_values[key]:
-      if not number_is_valid(current_puzzle, key, n):
-        possible_values[key].remove(n)
+    # Delete dictionary entries corresponding to spaces that were just filled
+    for key in to_delete:
+      del possible_values[key]
 
-  # Check for unique possible values in each row, column, and box and fill those in
-  for key in possible_values:
-    for n in possible_values[key]:
-      if unique_in_area(possible_values, key, n):
-        current_puzzle[key[0]][key[1]] = n
-        del possible_values[key]
-        break
+  for row in current_puzzle:
+    print(row)
 
 def number_is_valid(puzzle, index, number):
   x = index[0]
@@ -79,16 +96,25 @@ def unique_in_area(possible_values, index, number):
       unique_in_box = False
 
   return unique_in_row or unique_in_col or unique_in_box
+
+# Update the dictionary, removing any numbers that are no longer valid
+def update_possible_values(puzzle, possible_values):
+  for key in possible_values:
+      for n in possible_values[key]:
+        if not number_is_valid(puzzle, key, n):
+          possible_values[key].remove(n)
+
+  return possible_values
       
 
 sample_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
-                [6, 0, 0, 1, 9, 5, 0, 0, 0],
-                [0, 9, 8, 0, 0, 0, 0, 6, 0],
-                [8, 0, 0, 0, 6, 0, 0, 0, 3],
-                [4, 0, 0, 8, 0, 3, 0, 0, 1],
-                [7, 0, 0, 0, 2, 0, 0, 0, 6],
-                [0, 6, 0, 0, 0, 0, 2, 8, 0],
-                [0, 0, 0, 4, 1, 9, 0, 0, 5],
-                [0, 0, 0, 0, 8, 0, 0, 7, 9]]
+                 [6, 0, 0, 1, 9, 5, 0, 0, 0],
+                 [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                 [8, 0, 0, 0, 6, 0, 0, 0, 3],
+                 [4, 0, 0, 8, 0, 3, 0, 0, 1],
+                 [7, 0, 0, 0, 2, 0, 0, 0, 6],
+                 [0, 6, 0, 0, 0, 0, 2, 8, 0],
+                 [0, 0, 0, 4, 1, 9, 0, 0, 5],
+                 [0, 0, 0, 0, 8, 0, 0, 7, 9]]
 
 solve_sudoku(sample_puzzle)
