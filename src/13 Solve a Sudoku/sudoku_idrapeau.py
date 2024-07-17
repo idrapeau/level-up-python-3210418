@@ -55,6 +55,7 @@ def solve_sudoku(puzzle):
   for row in current_puzzle:
     print(row)
 
+
 def number_is_valid(puzzle, index, number):
   x = index[0]
   y = index[1]
@@ -105,6 +106,21 @@ def update_possible_values(puzzle, possible_values):
           possible_values[key].remove(n)
 
   return possible_values
+
+def print_sudoku(puzzle):
+  horizontal_separator = "--------------------------------"
+  for i in range(0, 9):
+    if i%3 == 0 and i != 0:
+      print(horizontal_separator)
+    line = ""
+    for j in range(0, 9):
+      if j%3 == 0 and j != 0:
+        line = line + "|  "
+      if puzzle[i][j] == 0:
+        line = line + "*  "
+      else:
+        line = line + str(puzzle[i][j]) + "  "
+    print(line)
       
 
 sample_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -117,4 +133,8 @@ sample_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
                  [0, 0, 0, 4, 1, 9, 0, 0, 5],
                  [0, 0, 0, 0, 8, 0, 0, 7, 9]]
 
+print_sudoku(sample_puzzle)
+
 solve_sudoku(sample_puzzle)
+
+print_sudoku(sample_puzzle)
