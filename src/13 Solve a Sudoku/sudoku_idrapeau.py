@@ -55,6 +55,14 @@ def solve_sudoku(puzzle):
   for row in current_puzzle:
     print(row)
 
+  # Continue to the backtracking algorithm if there are still empty spaces
+  # Print the solution when the puzzle is complete
+  if len(possible_values > 0):
+    if backtrack_solution(current_puzzle, possible_values) == True:
+      print_sudoku(current_puzzle)
+  else:
+    print_sudoku(current_puzzle)
+
 
 def number_is_valid(puzzle, index, number):
   x = index[0]
@@ -121,6 +129,39 @@ def print_sudoku(puzzle):
       else:
         line = line + str(puzzle[i][j]) + "  "
     print(line)
+
+def backtrack_solution(puzzle, possible_values):
+  row = -1
+  col = -1
+
+  # Check if there are empty spaces left in the puzzle
+  # Return True if there are none
+  # Get the index of the first empty space if there is at least one
+  if len(possible_values) == 0:
+    return True
+  for key in possible_values:
+    if puzzle[key[0]][key[1]] == 0:
+      row = key[0]
+      col = key[1]
+      break
+  if row == -1 or col == -1:
+    return True
+  
+  for num in possible_values[(row, col)]:
+    if number_is_valid(puzzle, (row, col), num):
+      puzzle[row][col] = num
+
+      if backtrack_solution(puzzle, possible_values):
+        return True
+
+      puzzle[row][col] = 0
+
+  return False
+
+
+  
+
+  
       
 
 sample_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
