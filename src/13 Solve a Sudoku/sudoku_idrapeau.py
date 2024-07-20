@@ -188,3 +188,5 @@ sample_puzzle_2 = [[0, 0, 3, 0, 4, 0, 8, 0, 0],
 
 print("\n")
 print_sudoku(sample_puzzle_2)
+
+solve_sudoku(sample_puzzle_2)
