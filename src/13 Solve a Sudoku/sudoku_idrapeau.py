@@ -57,7 +57,7 @@ def solve_sudoku(puzzle):
 
   # Continue to the backtracking algorithm if there are still empty spaces
   # Print the solution when the puzzle is complete
-  if len(possible_values > 0):
+  if len(possible_values) > 0:
     if backtrack_solution(current_puzzle, possible_values) == True:
       print_sudoku(current_puzzle)
   else:
@@ -158,9 +158,6 @@ def backtrack_solution(puzzle, possible_values):
 
   return False
 
-
-  
-
   
       
 
@@ -178,4 +175,16 @@ print_sudoku(sample_puzzle)
 
 solve_sudoku(sample_puzzle)
 
-print_sudoku(sample_puzzle)
+# Extreme difficulty Sudoku from sudoku.com
+sample_puzzle_2 = [[0, 0, 3, 0, 4, 0, 8, 0, 0],
+                   [6, 0, 0, 0, 0, 3, 9, 0, 0],
+                   [0, 4, 1, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 4, 0, 0, 1],
+                   [8, 0, 0, 0, 0, 5, 0, 0, 7],
+                   [1, 7, 0, 0, 6, 0, 0, 0, 2],
+                   [7, 0, 0, 0, 0, 6, 5, 0, 0],
+                   [3, 0, 0, 2, 0, 0, 0, 0, 8],
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+print("\n")
+print_sudoku(sample_puzzle_2)
