@@ -17,7 +17,7 @@ def download_files(sequence_url, output_directory):
   # Remove the numbers from the name
   file_name_components[0] = ''.join(re.findall(r'[a-zA-Z]+', file_name_components[0]))
 
-  # All of the file names are printed here
+  # Scan the url to find the names of the other files
   request_url = urllib.request.urlopen(base_url)
   request_url_txt = str(request_url.read())
 
