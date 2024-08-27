@@ -7,15 +7,20 @@ def download_files(sequence_url, output_directory):
 
   url_components_2 = sequence_url.split("/")
 
-  #print(url_components_2)
+  print(url_components_2)
 
   base_url = sequence_url.partition(url_components_2[-1])[0]
 
-  #print(base_url)
+  print(base_url)
+
+  file_name = url_components_2[-1]
+  print(file_name)
 
   # All of the file names are printed here
   request_url_1 = urllib.request.urlopen(base_url)
   print(request_url_1.read())
+
+  urllib.request.urlretrieve(sequence_url, file_name)
 
   #request_url = urllib.request.urlopen(sequence_url)
   #print(request_url.read())
