@@ -1,8 +1,13 @@
 import urllib.parse
 import urllib.request
 import re
+import os
 
 def download_files(sequence_url, output_directory):
+  # Create the output directory if it does not already exist
+  if not os.path.isdir(output_directory):
+    os.makedirs(output_directory)
+
   url_components = sequence_url.split("/")
 
   base_url = sequence_url.partition(url_components[-1])[0]
@@ -17,9 +22,6 @@ def download_files(sequence_url, output_directory):
 
   # Initialize a list of file names
   file_name_list = [file_name_1]
-
-  #file_path = output_directory + "/" + file_name
-  #print(file_path)
 
   # All of the file names are printed here
   request_url = urllib.request.urlopen(base_url)
@@ -40,11 +42,11 @@ def download_files(sequence_url, output_directory):
     # Remove the file name that was added to the list
     request_url_txt = request_url_txt.replace(next_file_name, "")
 
-  # Download all files on the list
-  # TODO: Download the files to the specified output directory
+  # Download all files on the list to the specified output directory
   for file_name in file_name_list:
     file_url = base_url + "/" + file_name
-    urllib.request.urlretrieve(file_url, file_name)
+    file_path = output_directory + "/" + file_name
+    urllib.request.urlretrieve(file_url, file_path)
 
 
 
